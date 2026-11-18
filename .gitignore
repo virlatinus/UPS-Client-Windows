@@ -24,6 +24,7 @@ Desktop.ini
 *.swo
 *~
 
-# Local environment / test overrides
+# Local environment / test overrides / local docs
 .env
 config.local.json
+.opencode/local/
