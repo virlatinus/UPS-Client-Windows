@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SignPath.io Artifact Configuration for OpenUPS Client for Windows (UPS-Client-Windows)
+  Upload or paste this configuration in SignPath -> Projects -> UPS-Client-Windows -> Artifact Configurations
+-->
+<artifact-configuration xmlns="http://signpath.io/artifact-configuration/v1">
+  <zip-file>
+    <!-- 1. Sign the standalone portable Windows executable -->
+    <pe-file path="ups-client-windows-*.exe">
+      <authenticode-sign />
+    </pe-file>
+
+    <!-- 2. Sign the NSIS Windows Setup installer (.exe) -->
+    <pe-file path="UPS-Client-Windows-*-setup.exe">
+      <authenticode-sign />
+    </pe-file>
+
+    <!-- 3. Deep-sign the WiX Windows Installer package (.msi) and its embedded executable -->
+    <msi-file path="UPS-Client-Windows-*.msi">
+      <pe-file path="ups-client-windows.exe">
+        <authenticode-sign />
+      </pe-file>
+      <authenticode-sign />
+    </msi-file>
+
+    <!-- Allow SHA256SUMS.txt if present in the bundle -->
+    <file path="SHA256SUMS.txt" />
+  </zip-file>
+</artifact-configuration>

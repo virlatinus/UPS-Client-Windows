@@ -21,7 +21,7 @@ env:
 
 jobs:
   build-release-installers:
-    name: Build Binary & Windows Installers (.exe & .msi)
+    name: Build, Sign & Publish Windows Installers (.exe & .msi)
     runs-on: windows-latest
     steps:
       - name: Checkout repository
@@ -72,10 +72,64 @@ jobs:
         run: |
           .\installer\build-installers.ps1 -Version "${{ steps.version.outputs.tag }}"
 
-      - name: Upload release artifacts to workflow run
+      # Required by SignPath to verify artifact origin directly from GitHub servers
+      - name: Upload unsigned release artifacts
+        id: upload-unsigned
         uses: actions/upload-artifact@v4
         with:
-          name: UPS-Client-Windows-${{ steps.version.outputs.tag }}-installers
+          name: UPS-Client-Windows-${{ steps.version.outputs.tag }}-unsigned
+          path: |
+            dist/ups-client-windows-${{ steps.version.outputs.tag }}-x86_64.exe
+            dist/UPS-Client-Windows-${{ steps.version.outputs.tag }}-x86_64-setup.exe
+            dist/UPS-Client-Windows-${{ steps.version.outputs.tag }}-x86_64.msi
+            dist/SHA256SUMS.txt
+
+      # Automatically signs artifacts via SignPath.io when SIGNPATH_API_TOKEN is configured
+      - name: Check SignPath configuration
+        id: signpath-check
+        shell: pwsh
+        env:
+          SIGNPATH_API_TOKEN: ${{ secrets.SIGNPATH_API_TOKEN }}
+          SIGNPATH_ORGANIZATION_ID: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
+        run: |
+          if (-not [string]::IsNullOrWhiteSpace($env:SIGNPATH_API_TOKEN) -and -not [string]::IsNullOrWhiteSpace($env:SIGNPATH_ORGANIZATION_ID)) {
+            Write-Host "SignPath credentials detected — code signing enabled."
+            "enabled=true" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          } else {
+            Write-Host "SignPath credentials not yet configured — skipping code signing."
+            "enabled=false" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          }
+
+      - name: Submit signing request to SignPath.io
+        if: steps.signpath-check.outputs.enabled == 'true'
+        uses: signpath/github-action-submit-signing-request@v2
+        with:
+          api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+          organization-id: ${{ vars.SIGNPATH_ORGANIZATION_ID }}
+          project-slug: ${{ vars.SIGNPATH_PROJECT_SLUG || 'UPS-Client-Windows' }}
+          signing-policy-slug: ${{ vars.SIGNPATH_SIGNING_POLICY_SLUG || 'release-signing' }}
+          github-artifact-id: ${{ steps.upload-unsigned.outputs.artifact-id }}
+          wait-for-completion: true
+          output-artifact-directory: dist
+
+      - name: Refresh SHA256SUMS.txt after code signing
+        if: steps.signpath-check.outputs.enabled == 'true'
+        shell: pwsh
+        run: |
+          $DistDir = Join-Path $PWD "dist"
+          $ChecksumFile = Join-Path $DistDir "SHA256SUMS.txt"
+          $Hashes = @()
+          Get-ChildItem -Path $DistDir -File | Where-Object { $_.Name -ne "SHA256SUMS.txt" } | ForEach-Object {
+            $Hash = (Get-FileHash -Path $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+            $Hashes += "$Hash  $($_.Name)"
+          }
+          $Hashes | Set-Content -Path $ChecksumFile -Encoding UTF8
+
+      - name: Upload signed release artifacts
+        if: steps.signpath-check.outputs.enabled == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: UPS-Client-Windows-${{ steps.version.outputs.tag }}-signed
           path: |
             dist/ups-client-windows-${{ steps.version.outputs.tag }}-x86_64.exe
             dist/UPS-Client-Windows-${{ steps.version.outputs.tag }}-x86_64-setup.exe

@@ -198,6 +198,21 @@ User settings are persisted automatically as JSON at:
 
 ---
 
+## 🔐 Code Signing & Privacy Policy
+
+### Code Signing Policy
+
+Free code signing is provided by [SignPath.io](https://signpath.io/), and the code signing certificate is provided by the [SignPath Foundation](https://signpath.org/).
+
+- **Committers, Reviewers, and Approvers**: [Werner García (@virlatinus)](https://github.com/virlatinus)
+- **Signed Artifacts**: All official Windows release artifacts (`ups-client-windows-v*-x86_64.exe`, `UPS-Client-Windows-v*-x86_64-setup.exe`, and `UPS-Client-Windows-v*-x86_64.msi`) are built from tagged commits in GitHub Actions (`.github/workflows/release.yml`) and signed using the SignPath Artifact Configuration in [`.signpath/artifact-configuration.xml`](.signpath/artifact-configuration.xml).
+
+### Privacy Policy
+
+This program will not transfer any information to other networked systems unless specifically requested by the user or the person installing or operating it (specifically, polling the user-configured UPS status HTTP URL). No telemetry, analytics, or personal data is collected or transmitted.
+
+---
+
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE).
