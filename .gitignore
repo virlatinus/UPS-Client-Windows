@@ -27,4 +27,4 @@ Desktop.ini
 # Local environment / test overrides / local docs
 .env
 config.local.json
-.opencode/local/
+.opencode/local
