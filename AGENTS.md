@@ -1,8 +1,8 @@
-# AGENTS.md — AI Agent Guide for `UPS-Client-Windows`
+# AGENTS.md — AI Agent Guide for `OpenUPS Client for Windows`
 
 ## Project Overview
 
-**UPS-Client-Windows** is a modern Windows desktop & System Tray application written in Rust that monitors any compatible UPS endpoint via HTTP and triggers alerts or actions on specific events.
+**OpenUPS Client for Windows** (`UPS-Client-Windows`) is a modern Windows desktop & System Tray application written in Rust that monitors any compatible UPS endpoint via HTTP and triggers alerts or actions on specific events.
 
 - **Repository**: `https://github.com/virlatinus/UPS-Client-Windows`
 - **Language / Edition**: Rust (2021 Edition)

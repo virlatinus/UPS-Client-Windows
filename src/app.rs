@@ -54,7 +54,7 @@ enum PollUpdate {
     },
 }
 
-/// Main application state for `UPS-Client-Windows`.
+/// Main application state for `OpenUPS Client for Windows`.
 pub struct UpsClientApp {
     config: AppConfig,
     settings_expanded: bool,
@@ -527,7 +527,7 @@ impl eframe::App for UpsClientApp {
                             ui.vertical(|ui| {
                                 ui.spacing_mut().item_spacing.y = 1.0;
                                 ui.label(
-                                    RichText::new("UPS Client Windows")
+                                    RichText::new("OpenUPS Client for Windows")
                                         .font(FontId::proportional(21.0))
                                         .strong()
                                         .color(Color32::from_rgb(248, 250, 252)),

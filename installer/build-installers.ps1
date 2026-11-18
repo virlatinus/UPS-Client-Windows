@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    Builds the UPS Client Windows release binary and generates Windows installers (.exe via NSIS and .msi via WiX Toolset).
+    Builds the OpenUPS Client for Windows release binary and generates Windows installers (.exe via NSIS and .msi via WiX Toolset).
 
 .DESCRIPTION
     Can be run locally or in GitHub Actions CI/Release workflows.
@@ -47,7 +47,7 @@ try {
     }
 
     $TagVersion = "v$NumericVersion"
-    Write-Host "==> Building UPS Client Windows $TagVersion (numeric: $NumericVersion)" -ForegroundColor Cyan
+    Write-Host "==> Building OpenUPS Client for Windows $TagVersion (numeric: $NumericVersion)" -ForegroundColor Cyan
 
     # 2. Build Release Binary via Cargo
     $ReleaseExe = Join-Path $RepoRoot "target\release\ups-client-windows.exe"

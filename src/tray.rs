@@ -37,7 +37,7 @@ pub fn resolve_app_hwnd(cached_hwnd: &AtomicIsize) -> *mut core::ffi::c_void {
         }
     }
 
-    let title: Vec<u16> = "UPS Client Windows\0".encode_utf16().collect();
+    let title: Vec<u16> = "OpenUPS Client for Windows\0".encode_utf16().collect();
     let found = unsafe { FindWindowW(std::ptr::null(), title.as_ptr()) };
     if !found.is_null() {
         cached_hwnd.store(found as isize, Ordering::Relaxed);
@@ -243,7 +243,7 @@ impl SystemTray {
         let tray_icon = TrayIconBuilder::new()
             .with_menu(Box::new(menu.clone()))
             .with_menu_on_left_click(false)
-            .with_tooltip("UPS Client Windows — Monitoring")
+            .with_tooltip("OpenUPS Client for Windows — Monitoring")
             .with_icon(icon)
             .build()
             .map_err(|e| format!("Failed to build system tray icon: {}", e))?;
@@ -354,7 +354,7 @@ impl SystemTray {
                 }
             }
             (_, Some(err)) => {
-                let tooltip = format!("UPS Client Windows — Connection Error\n{}", err);
+                let tooltip = format!("OpenUPS Client for Windows — Connection Error\n{}", err);
                 let _ = self.tray_icon.set_tooltip(Some(tooltip));
                 if let Ok(icon) = build_tray_icon([148, 163, 184]) {
                     let _ = self.tray_icon.set_icon(Some(icon));

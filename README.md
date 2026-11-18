@@ -1,4 +1,4 @@
-# UPS Client Windows
+# OpenUPS Client for Windows
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-emerald.svg)](LICENSE)
 [![Platform: Windows](https://img.shields.io/badge/Platform-Windows%2010%20%7C%2011-0078D4.svg)](https://github.com/virlatinus/UPS-Client-Windows)
@@ -6,9 +6,9 @@
 
 > **Modern Windows App that monitors any compatible UPS endpoint via HTTP and triggers alerts or actions on specific events**
 
-`UPS-Client-Windows` is a lightweight, native Rust application for Windows 10 and Windows 11 that continuously monitors an HTTP/JSON UPS status endpoint in the background from the Windows System Tray and executes configurable actions when battery charge drops to or below your chosen threshold.
+**OpenUPS Client for Windows** is a lightweight, native Rust application for Windows 10 and Windows 11 that continuously monitors an HTTP/JSON UPS status endpoint in the background from the Windows System Tray and executes configurable actions when battery charge drops to or below your chosen threshold.
 
-![UPS Client Windows Interface](assets/screenshot.png)
+![OpenUPS Client for Windows Interface](assets/screenshot.png)
 
 ---
 

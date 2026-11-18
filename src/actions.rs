@@ -77,7 +77,7 @@ pub fn play_alert_sound(status: &UpsStatus) -> Result<String, String> {
 /// c. Graceful Windows shutdown.
 pub fn initiate_graceful_shutdown(status: &UpsStatus) -> Result<String, String> {
     let comment = format!(
-        "UPS Client Windows: {} battery reached {}% (status: {}). Initiating graceful shutdown.",
+        "OpenUPS Client for Windows: {} battery reached {}% (status: {}). Initiating graceful shutdown.",
         status.model, status.battery_charge, status.status_label
     );
 

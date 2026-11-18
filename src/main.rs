@@ -35,7 +35,7 @@ fn main() -> eframe::Result<()> {
     };
 
     let viewport = egui::ViewportBuilder::default()
-        .with_title("UPS Client Windows")
+        .with_title("OpenUPS Client for Windows")
         .with_inner_size([
             BASE_WINDOW_WIDTH * initial_scale,
             BASE_WINDOW_HEIGHT * initial_scale,
@@ -51,7 +51,7 @@ fn main() -> eframe::Result<()> {
     };
 
     eframe::run_native(
-        "UPS Client Windows",
+        "OpenUPS Client for Windows",
         native_options,
         Box::new(move |cc| {
             Ok(Box::new(UpsClientApp::new(

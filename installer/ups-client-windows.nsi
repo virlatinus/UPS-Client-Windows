@@ -1,5 +1,5 @@
 ; =============================================================================
-; NSIS (Nullsoft Scriptable Install System) Setup Script for UPS Client Windows
+; NSIS (Nullsoft Scriptable Install System) Setup Script for OpenUPS Client for Windows
 ; Open-source Windows .exe installer definition
 ; =============================================================================
 
@@ -14,7 +14,7 @@
   !define OUTFILE "..\dist\UPS-Client-Windows-v${VERSION}-x86_64-setup.exe"
 !endif
 
-!define APP_NAME "UPS Client Windows"
+!define APP_NAME "OpenUPS Client for Windows"
 !define COMP_NAME "Werner Garcia (virlatinus)"
 !define WEB_SITE "https://github.com/virlatinus/UPS-Client-Windows"
 !define MAIN_APP_EXE "ups-client-windows.exe"

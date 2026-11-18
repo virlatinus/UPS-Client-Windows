@@ -40,7 +40,7 @@ impl TriggerAction {
     ];
 }
 
-/// Persistent user configuration for UPS Client Windows.
+/// Persistent user configuration for OpenUPS Client for Windows.
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(default)]
 pub struct AppConfig {

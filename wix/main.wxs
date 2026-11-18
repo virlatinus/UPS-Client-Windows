@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='windows-1252'?>
 <!--
-  WiX Toolset (.msi) configuration for UPS Client Windows.
+  WiX Toolset (.msi) configuration for OpenUPS Client for Windows.
   Can be built directly with WiX Toolset (candle.exe + light.exe) or via `cargo wix`.
 -->
 <?ifndef Version?>
@@ -20,7 +20,7 @@
 <Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
     <Product
         Id='*'
-        Name='UPS Client Windows'
+        Name='OpenUPS Client for Windows'
         UpgradeCode='8E4B7C2A-51F9-4D3E-9A1C-7F6B2D8E4A10'
         Manufacturer='Werner Garcia (virlatinus)'
         Language='1033'
@@ -44,11 +44,11 @@
             DowngradeErrorMessage='A newer version of [ProductName] is already installed. Setup will now exit.'/>
 
         <Media Id='1' Cabinet='media1.cab' EmbedCab='yes' DiskPrompt='CD-ROM #1'/>
-        <Property Id='DiskPrompt' Value='UPS Client Windows Installation'/>
+        <Property Id='DiskPrompt' Value='OpenUPS Client for Windows Installation'/>
 
         <Directory Id='TARGETDIR' Name='SourceDir'>
             <Directory Id='ProgramFiles64Folder' Name='PFiles'>
-                <Directory Id='APPLICATIONFOLDER' Name='UPS Client Windows'>
+                <Directory Id='APPLICATIONFOLDER' Name='OpenUPS Client for Windows'>
                     <Component Id='MainExecutable' Guid='3C9A1E4F-82B5-4C7D-B6E0-1A5F9C3D7E21' Win64='yes'>
                         <File
                             Id='UpsClientExe'
@@ -69,11 +69,11 @@
             </Directory>
 
             <Directory Id='ProgramMenuFolder'>
-                <Directory Id='ApplicationProgramsFolder' Name='UPS Client Windows'>
+                <Directory Id='ApplicationProgramsFolder' Name='OpenUPS Client for Windows'>
                     <Component Id='ApplicationShortcut' Guid='5B1D8E3A-94C2-4F7E-A1B6-2D8C4E9F0A12' Win64='yes'>
                         <Shortcut
                             Id='ApplicationStartMenuShortcut'
-                            Name='UPS Client Windows'
+                            Name='OpenUPS Client for Windows'
                             Description='Monitor UPS status and trigger battery threshold actions'
                             Target='[#UpsClientExe]'
                             WorkingDirectory='APPLICATIONFOLDER'/>
@@ -92,8 +92,8 @@
 
         <Feature
             Id='Binaries'
-            Title='UPS Client Windows'
-            Description='Installs the UPS Client Windows application and Start Menu shortcut.'
+            Title='OpenUPS Client for Windows'
+            Description='Installs the OpenUPS Client for Windows application and Start Menu shortcut.'
             Level='1'
             ConfigurableDirectory='APPLICATIONFOLDER'
             AllowAdvertise='no'
