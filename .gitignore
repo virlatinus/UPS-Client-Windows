@@ -1,0 +1,29 @@
+# Rust / Cargo
+/target/
+/dist/
+Cargo.lock
+
+# Installer build intermediates
+*.wixobj
+*.wixpdb
+*.msi
+*-setup.exe
+
+# Debug & Crash artifacts
+*.pdb
+*.dmp
+
+# Windows thumbnail & folder caches
+Thumbs.db
+Desktop.ini
+
+# IDE & Editor directories
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Local environment / test overrides
+.env
+config.local.json

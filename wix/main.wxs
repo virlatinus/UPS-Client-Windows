@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='windows-1252'?>
+<!--
+  WiX Toolset (.msi) configuration for UPS Client Windows.
+  Can be built directly with WiX Toolset (candle.exe + light.exe) or via `cargo wix`.
+-->
+<?ifndef Version?>
+  <?define Version = "1.0.0"?>
+<?endif?>
+
+<?ifdef CargoTargetBinDir?>
+  <?define ExeSource = "$(var.CargoTargetBinDir)\ups-client-windows.exe"?>
+<?else?>
+  <?ifndef TargetBin?>
+    <?define ExeSource = "target\release\ups-client-windows.exe"?>
+  <?else?>
+    <?define ExeSource = "$(var.TargetBin)"?>
+  <?endif?>
+<?endif?>
+
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
+    <Product
+        Id='*'
+        Name='UPS Client Windows'
+        UpgradeCode='8E4B7C2A-51F9-4D3E-9A1C-7F6B2D8E4A10'
+        Manufacturer='Werner Garcia (virlatinus)'
+        Language='1033'
+        Codepage='1252'
+        Version='$(var.Version)'>
+
+        <Package
+            Id='*'
+            Keywords='Installer,UPS,Battery,Monitor'
+            Description='Modern Windows App that monitors any compatible UPS endpoint via HTTP and triggers alerts or actions on specific events'
+            Manufacturer='Werner Garcia (virlatinus)'
+            InstallerVersion='450'
+            Languages='1033'
+            Compressed='yes'
+            InstallScope='perMachine'
+            SummaryCodepage='1252'
+            Platform='x64'/>
+
+        <MajorUpgrade
+            Schedule='afterInstallInitialize'
+            DowngradeErrorMessage='A newer version of [ProductName] is already installed. Setup will now exit.'/>
+
+        <Media Id='1' Cabinet='media1.cab' EmbedCab='yes' DiskPrompt='CD-ROM #1'/>
+        <Property Id='DiskPrompt' Value='UPS Client Windows Installation'/>
+
+        <Directory Id='TARGETDIR' Name='SourceDir'>
+            <Directory Id='ProgramFiles64Folder' Name='PFiles'>
+                <Directory Id='APPLICATIONFOLDER' Name='UPS Client Windows'>
+                    <Component Id='MainExecutable' Guid='3C9A1E4F-82B5-4C7D-B6E0-1A5F9C3D7E21' Win64='yes'>
+                        <File
+                            Id='UpsClientExe'
+                            Name='ups-client-windows.exe'
+                            DiskId='1'
+                            Source='$(var.ExeSource)'
+                            KeyPath='yes'/>
+                    </Component>
+                    <Component Id='LicenseFile' Guid='7D2E5A9B-41C8-4E6F-8B3A-9C0D1E2F3A4B' Win64='yes'>
+                        <File
+                            Id='LicenseTxt'
+                            Name='LICENSE.txt'
+                            DiskId='1'
+                            Source='LICENSE'
+                            KeyPath='yes'/>
+                    </Component>
+                </Directory>
+            </Directory>
+
+            <Directory Id='ProgramMenuFolder'>
+                <Directory Id='ApplicationProgramsFolder' Name='UPS Client Windows'>
+                    <Component Id='ApplicationShortcut' Guid='5B1D8E3A-94C2-4F7E-A1B6-2D8C4E9F0A12' Win64='yes'>
+                        <Shortcut
+                            Id='ApplicationStartMenuShortcut'
+                            Name='UPS Client Windows'
+                            Description='Monitor UPS status and trigger battery threshold actions'
+                            Target='[#UpsClientExe]'
+                            WorkingDirectory='APPLICATIONFOLDER'/>
+                        <RemoveFolder Id='CleanUpShortCut' Directory='ApplicationProgramsFolder' On='uninstall'/>
+                        <RegistryValue
+                            Root='HKCU'
+                            Key='Software\virlatinus\UPS-Client-Windows'
+                            Name='installed'
+                            Type='integer'
+                            Value='1'
+                            KeyPath='yes'/>
+                    </Component>
+                </Directory>
+            </Directory>
+        </Directory>
+
+        <Feature
+            Id='Binaries'
+            Title='UPS Client Windows'
+            Description='Installs the UPS Client Windows application and Start Menu shortcut.'
+            Level='1'
+            ConfigurableDirectory='APPLICATIONFOLDER'
+            AllowAdvertise='no'
+            Display='expand'
+            Absent='disallow'>
+            <ComponentRef Id='MainExecutable'/>
+            <ComponentRef Id='LicenseFile'/>
+            <ComponentRef Id='ApplicationShortcut'/>
+        </Feature>
+
+        <Property Id='ARPHELPLINK' Value='https://github.com/virlatinus/UPS-Client-Windows'/>
+        <Property Id='WIXUI_INSTALLDIR' Value='APPLICATIONFOLDER'/>
+        <WixVariable Id='WixUILicenseRtf' Value='wix\License.rtf'/>
+
+        <UI>
+            <UIRef Id='WixUI_InstallDir'/>
+        </UI>
+    </Product>
+</Wix>
